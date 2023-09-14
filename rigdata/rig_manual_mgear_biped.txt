@@ -1,0 +1,370 @@
+arm_L0_fk0_ctlは左上腕のFKコントローラ、arm_L0_fk1_ctlは左前腕のFKコントローラ、arm_L0_fk2_ctlは左手首のFKコントローラです。
+arm_L0_ik_ctlは左腕のIKコントローラです。手首の位置を操作します。
+arm_L0_ikRot_ctlは左腕のIK回転コントローラです。手首の回転を操作します。
+arm_L0_mid_ctlは左腕の肘を移動するIKコントローラです。
+arm_L0_upv_ctlは左腕のIKアップベクトルコントローラです。
+
+
+arm_R0_fk0_ctlは右上腕のFKコントローラ、arm_R0_fk1_ctlは右前腕のFKコントローラ、arm_R0_fk2_ctlは右手首のFKコントローラです。
+arm_R0_ik_ctlは右腕のIKコントローラです。手首の位置を操作します。
+arm_R0_ikRot_ctlは右腕のIK回転コントローラです。手首の回転を操作します。
+arm_R0_mid_ctlは右腕の肘を移動するIKコントローラです。
+arm_R0_upv_ctlは右腕のIKアップベクトルコントローラです。
+
+
+左腕のIK（arm_L0_ik_ctl）をどこかに拘束したい時は親ノードであるarm_L0_ikcns_ctlをコンストレイントしてください。
+同じく右腕（arm_R0_ik_ctl）の場合はarm_R0_ikcns_ctlをコンストレイントしてください。
+
+
+leg_L0_fk0_ctlは左大腿のFKコントローラ、leg_L0_fk1_ctlは左下腿のFKコントローラ、leg_L0_fk2_ctlは左足首のFKコントローラです。
+leg_L0_ik_ctlは左脚のIKコントローラです。足首の位置を操作します。
+leg_L0_mid_ctlは左膝を移動するIKコントローラです。
+leg_L0_root_ctlは左足全体をオフセット移動するコントローラです。股関節位置に基点があります。
+leg_L0_upv_ctlは左脚のIKアップベクトルコントローラです。
+
+
+leg_R0_fk0_ctlは右大腿のFKコントローラ、leg_R0_fk1_ctlは右下腿のFKコントローラ、leg_R0_fk2_ctlは右足首のFKコントローラです。
+leg_R0_ik_ctlは右脚のIKコントローラです。足首の位置を操作します。
+leg_R0_mid_ctlは右膝を移動するIKコントローラです。
+leg_R0_root_ctlは右足全体をオフセット移動するコントローラです。股関節位置に基点があります。
+leg_R0_upv_ctlは右脚のIKアップベクトルコントローラです。
+
+
+左腕のIK（leg_L0_ik_ctl）をどこかに拘束したい時は親ノードであるleg_L0_ikcns_ctlをコンストレイントしてください。
+同じく右腕（leg_R0_ik_ctl）の場合はleg_R0_ikcns_ctlをコンストレイントしてください。
+
+
+shoulder_L0_ctlは左鎖骨のコントローラです。shoulder_L0_orbit_ctlは左鎖骨の先端（肩関節）のコントローラです。
+shoulder_R0_ctlは右鎖骨のコントローラです。shoulder_R0_orbit_ctlは右鎖骨の先端（肩関節）のコントローラです。
+
+
+body_C0_ctlは腰のコントローラです。移動と回転で操作します。
+
+
+eye_L0_Over_ctlは左目の周囲の瞼を操作するコントローラ、eye_R0_Over_ctlは右目の周囲の瞼を操作するコントローラです。
+eye_L0_fk_ctlは左目の眼球を直接操作するコントローラ、eye_R0_fk_ctlは右目の眼球を直接操作するコントローラです。
+eye_L0_ik_ctlは左目の視線をエイムで操作するコントローラ、eye_R0_ik_ctlは右目の視線をエイムで操作するコントローラです。
+eyeslook_C0_ctlは左右の視線をまとめてエイムで操作するコントローラです。
+
+
+thumbRoll_L0_ctlは左手親指の上位ノードで親指全体を回転します。
+thumb_L0_fk0_ctlは左手親指のCM関節、thumb_L0_fk1_ctlは左手親指の第三関節（MP関節）、thumb_L0_fk2_ctlは左手親指の第一関節（IP関節）です。
+finger_L0_fk0_ctlは左手人差し指の第三関節（MP関節）、finger_L0_fk1_ctlは左手人差し指の第二関節（PIP関節）、finger_L0_fk2_ctlは左手人差し指の第一関節（DIP関節）です。
+finger_L1_fk0_ctlは左手中指の第三関節（MP関節）、finger_L1_fk1_ctlは左手中指の第二関節（PIP関節）、finger_L1_fk2_ctlは左手中指の第一関節（DIP関節）です。
+finger_L2_fk0_ctlは左手薬指の第三関節（MP関節）、finger_L2_fk1_ctlは左手薬指の第二関節（PIP関節）、finger_L2_fk2_ctlは左手薬指の第一関節（DIP関節）です。
+finger_L3_fk0_ctlは左手小指の第三関節（MP関節）、finger_L3_fk1_ctlは左手小指の第二関節（PIP関節）、finger_L3_fk2_ctlは左手小指の第一関節（DIP関節）です。
+
+
+thumbRoll_R0_ctlは右手親指の上位ノードで親指全体を回転します。
+thumb_R0_fk0_ctlは右手親指のCM関節、thumb_R0_fk1_ctlは右手親指の第三関節（MP関節）、thumb_R0_fk2_ctlは右手親指の第一関節（IP関節）です。
+finger_R0_fk0_ctlは右手人差し指の第三関節（MP関節）、finger_R0_fk1_ctlは右手人差し指の第二関節（PIP関節）、finger_R0_fk2_ctlは右手人差し指の第一関節（DIP関節）です。
+finger_R1_fk0_ctlは右手中指の第三関節（MP関節）、finger_R1_fk1_ctlは右手中指の第二関節（PIP関節）、finger_R1_fk2_ctlは右手中指の第一関節（DIP関節）です。
+finger_R2_fk0_ctlは右手薬指の第三関節（MP関節）、finger_R2_fk1_ctlは右手薬指の第二関節（PIP関節）、finger_R2_fk2_ctlは右手薬指の第一関節（DIP関節）です。
+finger_R3_fk0_ctlは右手小指の第三関節（MP関節）、finger_R3_fk1_ctlは右手小指の第二関節（PIP関節）、finger_R3_fk2_ctlは右手小指の第一関節（DIP関節）です。
+
+
+meta_L0_ctlは左手中手骨全体を動かすコントローラです。人差し指、中指、薬指、小指の中手骨（CM関節）を操作します。同じくmeta_R0_ctlは右手中手骨全体を動かすコントローラです。
+
+
+foot_L0_bk0_ctlは左足リバースフット用のコントローラです。つま先の先端に基点があります。
+foot_L0_bk1_ctlは左足リバースフット用のコントローラです。足指の付け根に基点があります。
+foot_L0_bk2_ctlは左足リバースフット用のコントローラです。足の中間に基点があります。
+foot_L0_roll_ctlは左足のリバースフットと踵立ちを兼ねたコントローラです。
+foot_L0_heel_ctlは左足の踵を基点に回転するコントローラです。
+
+
+foot_L0_fk0_ctlは左足中間のFKコントローラです。foot_L0_fk1_ctlは左足つま先（足指）のFKコントローラです。
+foot_L0_tip_ctlは左足全体を回転させるコントローラです。つま先付近に基点があります。
+
+
+foot_R0_bk0_ctlは右足リバースフット用のコントローラです。つま先の先端に基点があります。
+foot_R0_bk1_ctlは右足リバースフット用のコントローラです。足指の付け根に基点があります。
+foot_R0_bk2_ctlは右足リバースフット用のコントローラです。足の中間に基点があります。
+foot_R0_roll_ctlは右足のリバースフットと踵立ちを兼ねたコントローラです。
+foot_R0_heel_ctlは右足の踵を基点に回転するコントローラです。
+
+
+foot_R0_fk0_ctlは右足中間のFKコントローラです。foot_R0_fk1_ctlは右足つま先（足指）のFKコントローラです。
+foot_R0_tip_ctlは右足全体を回転させるコントローラです。つま先付近に基点があります。
+
+
+neck_C0_fk0_ctlとneck_C0_fk1_ctlは首のFKコントローラです。fk0が背骨側、fk1が頭側の位置にあります。
+neck_C0_ik_ctlは首のIKコントローラです。拘束先はspineUI_C0_ctlのneck_ikrefアトリビュートで切り替えます。
+neck_C0_head_ctlは頭のFKコントローラです。
+
+
+spine_C0_fk0_ctl,spine_C0_fk1_ctl,spine_C0_fk2_ctlは背骨のFKコントローラです。fk0が腰側、fk2が胸側の位置にあります。
+spine_C0_ik0_ctl,spine_C0_ik1_ctlは背骨のIKコントローラで、移動と回転が可能です。ik0が腰の位置、ik1が胸の位置にあります。
+spine_C0_spinePosition_ctlは胸の位置にあるIKコントローラで、移動とY回転の操作のみ可能です。spine_C0_ik1_ctlとの違いは胸から上（腕や頭部）がまとめて回転する点になります。
+spine_C0_tan0_ctl,spine_C0_tan1_ctlは腰と胸の位置を固定したまま背骨を湾曲させるコントローラです。tan0が腰側、tan1が胸側の位置にあります。spine_C0_tan_ctlはtan0とtan1をまとめて操作するためのコントローラです。
+
+
+mouth_C0_jaw_ctlは顎のコントローラで、移動とℤ回転のみ操作可能です。
+mouth_C0_lipup_ctlは上唇、mouth_C0_liplow_ctlは下唇のコントローラです。
+mouth_C0_teethup_ctlは上の歯、mouth_C0_teethlow_ctlは下の歯のコントローラです。
+
+
+tongue_C0_fk0_ctl,tongue_C0_fk1_ctl,tongue_C0_fk2_ctl,tongue_C0_fk3_ctlは舌のコントローラです。fk0が付け根、fk3が先端になっています。
+
+
+armUI_R0_ctlのarm_blendアトリビュートで右腕のIKFKの切り替えができます。0でFK、1でIKになります。同じくarmUI_L0_ctlのarm_blendアトリビュートでは左腕のIKFKの切り替えができます。
+
+
+armUI_R0_ctlのarm_ikrefアトリビュートで右腕のIKコントローラ（arm_R0_ik_ctl）の拘束先を切り替えられます。
+- 0に設定するとshoulder_R0_orbitに拘束され肩にコントローラが追従します。
+- 1に設定するとlocal_C0_ctlに拘束され肩や背骨、腰を動かしても右腕のIKコントローラはその場に留まります。
+- 2に設定するとbody_C0_ctlに拘束され腰に右腕のIKコントローラが追従します。肩や背骨を動かしても右腕のIKコントローラはその場に留まります。
+- 3に設定するとspine_C0_tipに拘束され胸に右腕のIKコントローラが追従します。肩を動かしてもIKコントローラはその場に留まります。
+- 4に設定するとspine_C0_base（spine_C0_ik0_ctl）に拘束され腰に右腕のIKコントローラが追従します。肩や胸を動かしてもIKコントローラはその場に留まります。
+- 5に設定するとglobal_C0_ctlに拘束され肩や背骨、腰を動かしても右腕のIKコントローラはその場に留まります。
+同じくarmUI_L0_ctlのarm_ikrefアトリビュートでは左腕のIKコントローラ（arm_L0_ik_ctl）の拘束先を切り替えられます。
+
+
+armUI_R0_ctlのarm_ikRotRefアトリビュートで右腕のIK回転コントローラ（arm_R0_ikRot_ctl）の拘束先を切り替えられます。
+- 0に設定するとAutoとなり前腕の向きに追従します。
+- 1に設定するとik_ctl（arm_R0_ik_ctl）に拘束されます。
+- 2に設定するとshoulder_R0_orbitに拘束されます。
+- 3に設定するとlocal_C0_ctlに拘束されます。
+- 4に設定するとbody_C0_ctlにに拘束されます。
+- 5に設定するとspine_C0_tipにに拘束されます。
+- 6に設定するとspine_C0_base（spine_C0_ik0_ctl）に拘束されます。
+- 7に設定するとglobal_C0_ctlに拘束されます。
+同じくarmUI_L0_ctlのarm_ikRotRefアトリビュートでは左腕のIK回転コントローラ（arm_L0_ikRot_ctl）の拘束先を切り替えられます。
+
+
+armUI_R0_ctlのarm_upvrefアトリビュートで右腕のIKアップベクトルコントローラ（arm_R0_upv_ctl）の拘束先を切り替えられます。
+- 0に設定するとAutoとなり肩、肘、手首の位置を元に程よい位置に配置されます。
+- 1に設定するとshoulder_R0_orbitに拘束されます。
+- 2に設定するとlocal_C0_ctlに拘束されます。
+- 3に設定するとbody_C0_ctlにに拘束されます。
+- 4に設定するとspine_C0_tipにに拘束されます。
+- 5に設定するとspine_C0_base（spine_C0_ik0_ctl）に拘束されます。
+- 6に設定するとglobal_C0_ctlに拘束されます。
+同じくarmUI_L0_ctlのarm_upvrefアトリビュートでは左腕のIKアップベクトルコントローラ（arm_L0_upv_ctl）の拘束先を切り替えられます。
+
+
+armUI_R0_ctlのarm_elbowrefアトリビュートで右肘のIKコントローラ（arm_R0_mid_ctl）の拘束先を切り替えられます。どこかに肘を固定したいときに使用します。
+- 0に設定するとAutoとなり通常の2ボーンIKの挙動になります。
+- 1に設定するとshoulder_R0_orbitに拘束されます。
+- 2に設定するとlocal_C0_ctlに拘束されます。
+- 3に設定するとbody_C0_ctlにに拘束されます。
+- 4に設定するとspine_C0_tipにに拘束されます。
+- 5に設定するとspine_C0_base（spine_C0_ik0_ctl）に拘束されます。
+- 6に設定するとglobal_C0_ctlに拘束されます。
+同じくarmUI_L0_ctlのarm_elbowrefアトリビュートでは左肘のIKコントローラ（arm_L0_mid_ctl）の拘束先を切り替えられます。
+
+
+armUI_R0_ctlのarm_rollアトリビュートで右肩と右手首の位置を固定し右腕全体を回転させることができます。armUI_L0_ctlのarm_rollアトリビュートで左肩と左手首の位置を固定し左腕全体を回転させることができます。
+IKモードのとき（arm_blendが1のとき）のみ有効です。
+
+
+armUI_R0_ctlのarm_aprollアトリビュートで右上腕のひねりを調整できます。armUI_L0_ctlのarm_aprollアトリビュートで左上腕のひねりを調整できます。
+
+
+armUI_R0_ctlのarm_ikscaleアトリビュートで右腕全体の長さをスケールできます。armUI_L0_ctlのarm_ikscaleアトリビュートで左腕全体の長さをスケールできます。デフォルトは1.0です。
+IKモードのとき（arm_blendが1のとき）のみ有効です。
+
+
+armUI_R0_ctlのarm_maxstretchアトリビュートで右腕の最大伸縮率を指定できます。1.0で腕が伸びなくなります。同じくarmUI_L0_ctlのarm_maxstretchアトリビュートで左腕の最大伸縮率を指定できます。
+IKモードのとき（arm_blendが1のとき）のみ有効です。
+
+
+armUI_R0_ctlのarm_slideアトリビュートで右肘の位置をスライドできます。デフォルトは0.5で腕の中間に肘が位置します。同じくarmUI_L0_ctlのarm_slideアトリビュートで左肘の位置をスライドできます。
+IKモードのとき（arm_blendが1のとき）のみ有効です。
+
+
+armUI_R0_ctlのarm_softnessアトリビュートで腕が伸び切った瞬間に肘がカクつく現象を緩和できます。0で効果なし、1で効果が最大になります。同じくarmUI_L0_ctlのarm_softnessアトリビュートで肘がカクつく現象を緩和できます。
+IKモードのとき（arm_blendが1のとき）のみ有効です。
+
+
+armUI_R0_ctlのarm_reverseアトリビュートで右肘が逆向きに曲がるようになります。同じくarmUI_L0_ctlのarm_reverseアトリビュートで左肘が逆向きに曲がるようになります。0で通常、1で完全に逆関節になります。
+IKモードのとき（arm_blendが1のとき）のみ有効です。
+
+
+armUI_R0_ctlのarm_roundnessアトリビュートで右腕が弧状に曲がるようになります。armUI_L0_ctlのarm_roundnessアトリビュートで左腕が弧状に曲がるようになります。
+
+
+armUI_R0_ctlのarm_volumeアトリビュートで右腕が伸びた時に細くなり、縮んだ時に太くなる効果を付加できます。0で効果なし、1で効果が最大になります。同じくarmUI_Ｌ0_ctlのarm_volumeアトリビュートで左腕に同様の効果を付加できます。
+
+
+legUI_R0_ctlのleg_blendアトリビュートで右脚のIKFKの切り替えができます。0でFK、1でIKになります。同じくlegUI_L0_ctlのleg_blendアトリビュートでは左脚のIKFKの切り替えができます。
+
+
+legUI_R0_ctlのleg_ikrefアトリビュートで右脚のIKコントローラ（leg_R0_ik_ctl）の拘束先を切り替えられます。
+- 0に設定するとlocal_C0_ctlに拘束されます。
+- 1に設定するとglobal_C0_ctlに拘束されます。
+同じくlegUI_L0_ctlのleg_ikrefアトリビュートでは左腕のIKコントローラ（leg_L0_ik_ctl）の拘束先を切り替えられます。
+
+
+legUI_R0_ctlのleg_upvrefアトリビュートで右脚のIKアップベクトルコントローラ（leg_R0_upv_ctl）の拘束先を切り替えられます。
+- 0に設定するとAutoとなり股関節、膝、足首の位置を元に程よい位置に配置されます。
+- 1に設定するとikFoot（足首）に拘束されます。
+- 2に設定するとlocal_C0_ctlに拘束されます。
+- 3に設定するとglobal_C0_ctlに拘束されます。
+同じくlegUI_L0_ctlのleg_upvrefアトリビュートでは左脚のIKアップベクトルコントローラ（leg_L0_upv_ctl）の拘束先を切り替えられます。
+
+
+legUI_R0_ctlのleg_kneerefアトリビュートで右膝IKコントローラ（leg_R0_mid_ctl）の拘束先を切り替えられます。
+- 0に設定するとAutoとなり股関節、膝、足首の位置を元に程よい位置に配置されます。
+- 1に設定するとlocal_C0_ctlに拘束されます。
+- 2に設定するとglobal_C0_ctlに拘束されます。
+同じくlegUI_L0_ctlのleg_kneerefアトリビュートでは左膝IKコントローラ（leg_L0_mid_ctl）の拘束先を切り替えられます。
+
+
+legUI_R0_ctlのleg_rollアトリビュートで右股関節と右足首の位置を固定し右脚全体を回転させることができます。legUI_L0_ctlのleg_rollアトリビュートで左股関節と左足首の位置を固定し左脚全体を回転させることができます。
+IKモードのとき（leg_blendが1のとき）のみ有効です。
+
+
+legUI_R0_ctlのleg_ikscaleアトリビュートで右脚全体の長さをスケールできます。legUI_L0_ctlのleg_ikscaleアトリビュートで左脚全体の長さをスケールできます。デフォルトは1.0です。
+IKモードのとき（leg_blendが1のとき）のみ有効です。
+
+
+legUI_R0_ctlのleg_maxstretchアトリビュートで右脚の最大伸縮率を指定できます。1.0で脚が伸びなくなります。同じくlegUI_L0_ctlのleg_maxstretchアトリビュートで左脚の最大伸縮率を指定できます。
+IKモードのとき（leg_blendが1のとき）のみ有効です。
+
+
+legUI_R0_ctlのleg_slideアトリビュートで右膝の位置をスライドできます。デフォルトは0.5で脚の中間に膝が位置します。同じくlegUI_L0_ctlのleg_slideアトリビュートで左膝の位置をスライドできます。
+IKモードのとき（leg_blendが1のとき）のみ有効です。
+
+
+legUI_R0_ctlのleg_softnessアトリビュートで脚が伸び切った瞬間に膝がカクつく現象を緩和できます。0で効果なし、1で効果が最大になります。同じくlegUI_L0_ctlのleg_softnessアトリビュートで膝がカクつく現象を緩和できます。
+IKモードのとき（leg_blendが1のとき）のみ有効です。
+
+
+legUI_R0_ctlのleg_reverseアトリビュートで右膝が逆向きに曲がるようになります。同じくlegUI_L0_ctlのleg_reverseアトリビュートで左膝が逆向きに曲がるようになります。0で通常、1で完全に逆関節になります。
+IKモードのとき（leg_blendが1のとき）のみ有効です。
+
+
+legUI_R0_ctlのleg_roundnessアトリビュートで右脚が弧状に曲がるようになります。legUI_L0_ctlのleg_roundnessアトリビュートで左脚が弧状に曲がるようになります。
+
+
+legUI_R0_ctlのleg_volumeアトリビュートで右脚が伸びた時に細くなり、縮んだ時に太くなる効果を付加できます。0で効果なし、1で効果が最大になります。同じくlegUI_Ｌ0_ctlのleg_volumeアトリビュートで左脚に同様の効果を付加できます。
+
+
+legUI_R0_ctlのfoot_angle_0,foot_angle_1アトリビュートで、リバースフットコントローラ（foot_R0_roll_ctl）をつま先側に倒した時の、つま先が曲がる量を設定できます。デフォルトはいずれも-20で、0にするとつま先が曲がらずに足全体がつま先先端を基点に回転します。foot_angle_0がfoot_R0_fk0_ctlの位置の回転、foot_angle_1がfoot_R0_fk1_ctlの位置の回転です。同じくlegUI_L0_ctlのfoot_angle_0,foot_angle_1アトリビュートで、リバースフットコントローラ（foot_L0_roll_ctl）でのつま先の曲がり量を設定できます。
+
+
+spineUI_C0_ctlのspine_positionアトリビュートでspine_C0_ik0_ctlとspine_C0_ik1_ctlのどちらの位置に背骨が固定されるかを変更できます。0でspine_C0_ik0_ctl側に、1でspine_C0_ik1_ctl側に固定されます。
+
+
+spineUI_C0_ctlのspine_maxstretchアトリビュートで背骨が伸びた時の最大倍率を指定できます。1.0で背骨が伸びなくなります。
+
+
+spineUI_C0_ctlのspine_maxsquashアトリビュートで背骨が縮むときの最小倍率を指定できます。1.0で背骨が縮まなくなります。
+
+
+spineUI_C0_ctlのspine_softnessアトリビュートで背骨が伸び切った瞬間にカクつく現象を緩和できます。0で効果なし、1で効果が最大になります。
+
+
+spineUI_C0_ctlのspine_lock_ori0アトリビュートで背骨が回転したときの腰から下の回転を固定できます。デフォルトは1で固定、0にすると背骨につられて腰が回転するようになります。
+
+
+spineUI_C0_ctlのspine_lock_ori1アトリビュートで背骨が回転したときの胸から上の回転を固定できます。デフォルトは1で固定、0にすると背骨につられて頭や腕を含めた胸から上の部分が回転するようになります。
+
+
+spineUI_C0_ctlのspine_tan0アトリビュートでspine_C0_tan0_ctlの位置をコントロールできます。デフォルトは1で、0にするとspine_C0_ik0_ctlの位置に一致します。
+
+
+spineUI_C0_ctlのspine_tan1アトリビュートでspine_C0_tan1_ctlの位置をコントロールできます。デフォルトは1で、0にするとspine_C0_ik1_ctlの位置に一致します。
+
+
+spineUI_C0_ctlのspine_volumeアトリビュートで背骨が伸びた時に細くなり、縮んだ時に太くなる効果を付加できます。0で効果なし、1で効果が最大になります。
+
+
+spineUI_C0_ctlのspine_sideBendアトリビュートでspine_C0_spinePosition_ctlを動かしたときの背骨の横方向への曲がり具合を指定できます。範囲は0から1、1で最大まで曲がるようになります。デフォルトが0.5です。spineUI_C0_ctlのspine_frontBendアトリビュートは前後方向の曲がり具合です。
+
+
+spineUI_C0_ctlのneck_maxstretchアトリビュートで首が伸びた時の最大倍率を指定できます。1.0で首が伸びなくなります。
+
+
+spineUI_C0_ctlのneck_maxsquashアトリビュートで首が縮むときの最小倍率を指定できます。1.0で首が縮まなくなります。
+
+
+spineUI_C0_ctlのneck_softnessアトリビュートで首が伸び切った瞬間にカクつく現象を緩和できます。0で効果なし、1で効果が最大になります。
+
+
+spineUI_C0_ctlのneck_lock_oriアトリビュートで首が曲がった時の頭の回転を固定できます。デフォルトは1で固定、0にすると首につられて頭が回転するようになります。
+
+
+spineUI_C0_ctlのneck_tan0,neck_tan1アトリビュートでneck_C0_ik_ctlを移動したときの首のS字具合を調整できます。ただし首の分割が2つ程度の場合はあまり調整の効果は得られません。
+
+
+spineUI_C0_ctlのneck_volumeアトリビュートで首が伸びた時に細くなり、縮んだ時に太くなる効果を付加できます。0で効果なし、1で効果が最大になります。
+
+
+spineUI_C0_ctlのneck_ikrefアトリビュートで首のIKコントローラ（neck_C0_ik_ctl）の拘束先を切り替えられます。
+- 0に設定するとspine_C0_tipに拘束され胸に首のIKコントローラが追従します。
+- 1に設定するとbody_C0_ctlに拘束され腰に首のIKコントローラが追従します。背骨を動かしても首のIKコントローラはその場に留まります。
+- 2に設定するとlocal_C0_ctlに拘束され背骨や腰を動かしても首のIKコントローラはその場に留まります。
+- 3に設定するとglobal_C0_ctlに拘束され背骨や腰を動かしても首のIKコントローラはその場に留まります。
+
+
+spineUI_C0_ctlのneck_headrefアトリビュートで頭のコントローラ（neck_C0_head_ctl）の回転の拘束先を切り替えられます。
+- 0に設定するとselfとなり、首の向きに追従します。
+- 1に設定するとspine_C0_tipに拘束され頭のコントローラの回転が追従します。首を動かしても頭は回転しなくなります。
+- 2に設定するとbody_C0_ctlに拘束され腰に頭のコントローラの回転が追従します。首や背骨を動かしても頭は回転しなくなります。
+- 3に設定するとlocal_C0_ctlに拘束されます。首や背骨、腰を動かしても頭は回転しなくなります。
+- 4に設定するとglobal_C0_ctlに拘束されます。首や背骨、腰を動かしても頭は回転しなくなります。
+
+
+faceUI_C0_ctlのcontrol_ikrefアトリビュートで視線コントローラ（eyeslook_C0_ctl）の拘束先を切り替えられます。
+- 0に設定するとneck_C0_headに拘束され頭にコントローラが追従します。
+- 1に設定するとlocal_C0_ctlに拘束され頭や背骨、腰を動かしても視線コントローラはその場に留まります。
+- 2に設定するとbody_C0_ctlに拘束され腰に視線コントローラが追従します。頭や背骨を動かしても視線コントローラはその場に留まります。
+- 3に設定するとspine_C0_tipに拘束され胸に視線コントローラが追従します。頭を動かしても視線コントローラはその場に留まります。
+
+
+local_C0_ctl,global_C0_ctl,world_ctlはいずれも足元にあるキャラクター全体を移動するコントローラです。localの親がglobal、globalの親がworldになっています。
+
+
+rigという最上位ノードには表示/非表示のアトリビュートがいくつかあります。
+- ctl_visアトリビュートでコントローラ全体の表示/非表示ができます。1で表示、0で非表示です。
+- ctl_vis_on_playbackアトリビュートで再生中のコントローラの表示/非表示設定ができます。1で再生中のみ非表示、0で再生中でも表示になります。
+- jnt_visアトリビュートでjointの表示/非表示ができます。1で表示、0で非表示です。
+
+
+すべてのコントローラはrig_controllers_grpというオブジェクトセットのメンバーを取得することで得られます。
+
+
+すべてのコントローラを選択したい場合は次のスクリプトを実行します。
+```python
+import pymel.core as pm
+grp = "rig_controllers_grp"
+members = pm.PyNode(grp).members()
+pm.select(members, r=True)
+```
+
+
+すべてのコントローラに現在のフレームでキーフレームを作成したい場合は次のスクリプトを実行します。
+```python
+import pymel.core as pm
+grp = "rig_controllers_grp"
+members = pm.PyNode(grp).members()
+pm.setKeyframe(members)
+```
+
+
+すべてのコントローラを初期位置に戻したい場合は次のスクリプトを実行します。
+```python
+import pymel.core as pm
+import mgear.core.transform as transform
+grp = "rig_controllers_grp"
+members = pm.PyNode(grp).members()
+for obj in members:
+    transform.resetTransform(obj)
+```
+
+
+選択しているコントローラのみ初期位置に戻したい場合は次のスクリプトを実行します。
+```python
+import mgear.core.anim_utils as anim_utils
+anim_utils.resetSelTrans()
+```
+
+
+選択しているコントローラのポーズをミラーしたい場合は次のスクリプトを実行します。左右のペアがあるコントローラ（腕や足）のみ有効です。
+```python
+import mgear.core.anim_utils as anim_utils
+anim_utils.mirrorPose(False)
+```
+mirrorPoseの引数にTrueを渡すとポーズのミラーではなくポーズのフリップになり、左右のポーズが入れ替わります。
