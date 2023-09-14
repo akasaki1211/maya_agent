@@ -122,34 +122,34 @@ armUI_R0_ctlのarm_ikrefアトリビュートで右腕のIKコントローラ（
 
 armUI_R0_ctlのarm_ikRotRefアトリビュートで右腕のIK回転コントローラ（arm_R0_ikRot_ctl）の拘束先を切り替えられます。
 - 0に設定するとAutoとなり前腕の向きに追従します。
-- 1に設定するとik_ctl（arm_R0_ik_ctl）に拘束されます。
-- 2に設定するとshoulder_R0_orbitに拘束されます。
+- 1に設定するとik_ctl（arm_R0_ik_ctl）に拘束されIKコントローラに追従します。
+- 2に設定するとshoulder_R0_orbitに拘束され肩に追従します。
 - 3に設定するとlocal_C0_ctlに拘束されます。
-- 4に設定するとbody_C0_ctlにに拘束されます。
-- 5に設定するとspine_C0_tipにに拘束されます。
-- 6に設定するとspine_C0_base（spine_C0_ik0_ctl）に拘束されます。
+- 4に設定するとbody_C0_ctlにに拘束され腰に追従します。
+- 5に設定するとspine_C0_tipにに拘束され胸に追従します。
+- 6に設定するとspine_C0_base（spine_C0_ik0_ctl）に拘束され腰に追従します。
 - 7に設定するとglobal_C0_ctlに拘束されます。
 同じくarmUI_L0_ctlのarm_ikRotRefアトリビュートでは左腕のIK回転コントローラ（arm_L0_ikRot_ctl）の拘束先を切り替えられます。
 
 
 armUI_R0_ctlのarm_upvrefアトリビュートで右腕のIKアップベクトルコントローラ（arm_R0_upv_ctl）の拘束先を切り替えられます。
 - 0に設定するとAutoとなり肩、肘、手首の位置を元に程よい位置に配置されます。
-- 1に設定するとshoulder_R0_orbitに拘束されます。
+- 1に設定するとshoulder_R0_orbitに拘束され肩に追従します。
 - 2に設定するとlocal_C0_ctlに拘束されます。
-- 3に設定するとbody_C0_ctlにに拘束されます。
-- 4に設定するとspine_C0_tipにに拘束されます。
-- 5に設定するとspine_C0_base（spine_C0_ik0_ctl）に拘束されます。
+- 3に設定するとbody_C0_ctlにに拘束され腰に追従します。
+- 4に設定するとspine_C0_tipにに拘束され胸に追従します。
+- 5に設定するとspine_C0_base（spine_C0_ik0_ctl）に拘束され腰に追従します。
 - 6に設定するとglobal_C0_ctlに拘束されます。
 同じくarmUI_L0_ctlのarm_upvrefアトリビュートでは左腕のIKアップベクトルコントローラ（arm_L0_upv_ctl）の拘束先を切り替えられます。
 
 
 armUI_R0_ctlのarm_elbowrefアトリビュートで右肘のIKコントローラ（arm_R0_mid_ctl）の拘束先を切り替えられます。どこかに肘を固定したいときに使用します。
 - 0に設定するとAutoとなり通常の2ボーンIKの挙動になります。
-- 1に設定するとshoulder_R0_orbitに拘束されます。
+- 1に設定するとshoulder_R0_orbitに拘束され肩に追従します。
 - 2に設定するとlocal_C0_ctlに拘束されます。
-- 3に設定するとbody_C0_ctlにに拘束されます。
-- 4に設定するとspine_C0_tipにに拘束されます。
-- 5に設定するとspine_C0_base（spine_C0_ik0_ctl）に拘束されます。
+- 3に設定するとbody_C0_ctlにに拘束され腰に追従します。
+- 4に設定するとspine_C0_tipにに拘束され胸に追従します。
+- 5に設定するとspine_C0_base（spine_C0_ik0_ctl）に拘束され腰に追従します。
 - 6に設定するとglobal_C0_ctlに拘束されます。
 同じくarmUI_L0_ctlのarm_elbowrefアトリビュートでは左肘のIKコントローラ（arm_L0_mid_ctl）の拘束先を切り替えられます。
 
@@ -198,7 +198,7 @@ legUI_R0_ctlのleg_ikrefアトリビュートで右脚のIKコントローラ（
 
 legUI_R0_ctlのleg_upvrefアトリビュートで右脚のIKアップベクトルコントローラ（leg_R0_upv_ctl）の拘束先を切り替えられます。
 - 0に設定するとAutoとなり股関節、膝、足首の位置を元に程よい位置に配置されます。
-- 1に設定するとikFoot（足首）に拘束されます。
+- 1に設定するとikFootに拘束され足（足首）に追従します。
 - 2に設定するとlocal_C0_ctlに拘束されます。
 - 3に設定するとglobal_C0_ctlに拘束されます。
 同じくlegUI_L0_ctlのleg_upvrefアトリビュートでは左脚のIKアップベクトルコントローラ（leg_L0_upv_ctl）の拘束先を切り替えられます。
