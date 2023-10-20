@@ -161,4 +161,4 @@ cython_debug/
 
 
 # vector store
-rigdata/*.json
+#rigdata/*.json
