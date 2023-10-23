@@ -19,11 +19,12 @@ venv\scripts\activate
 pip install -U openai[datalib] tenacity
 ```
 
-3. [`create_vectorstore.py`](./create_vectorstore.py)を実行してベクトルストアを作成  
-（*[`query_test.py`](./query_test.py)でクエリテスト可）
+3. [`create_vectorstore.py`](./create_vectorstore.py)を実行してベクトルストアを作成（※[`query_test.py`](./query_test.py)はテスト検索スクリプト）
 
 > **Note**  
-> [`create_vectorstore.py`](./create_vectorstore.py)に記載されている[`./rigdata/rig_manual_mgear_biped.txt`](.rigdata/rig_manual_mgear_biped.txt)は、[mGear 4.1.0](https://github.com/mgear-dev/mgear4/releases/tag/4.1.0)の **Biped Template, Y-up** 用に作成したマニュアルテキストです。mGear4.1.0でBipedリグをビルドしておくことですぐに試すことができます。
+> * [`create_vectorstore.py`](./create_vectorstore.py)に記載されている[`./rigdata/rig_manual_mgear_biped.txt`](./rigdata/rig_manual_mgear_biped.txt)は、[mGear 4.1.0](https://github.com/mgear-dev/mgear4/releases/tag/4.1.0)の **Biped Template, Y-up** 用に作成したマニュアルテキストです。  
+> * これをベクトルストアにしたものも置いてあります。（[`./rigdata/rig_manual_mgear_biped.json`](./rigdata/rig_manual_mgear_biped.json)）  
+> * mGear4.1.0でBipedリグをビルドしておくことですぐに試すことができます。  
 
 ## Agent起動（Maya2024）
 
