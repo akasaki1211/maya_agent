@@ -1,6 +1,7 @@
 from .agent import Agent
 from .functions import FunctionSet, FunctionSetWithVectorSearch
 from .vectorstore import VectorStore
+from .utils import MDLogger
 from .openai_utils import DEFAULT_CHAT_MODEL
 
 def run(
@@ -17,12 +18,16 @@ def run(
 
     # エージェントのインスタンスを作成
     agent = Agent(function_set)
+
+    # ロガー準備
+    mdlogger = MDLogger()
     
     # エージェントへ問い合わせて更新されたメッセージを受け取る
     messages, agent_message = agent(
         prompt=task,
         model=model, 
         max_call=max_call,
+        mdlogger=mdlogger
     )
 
     return messages, agent_message
