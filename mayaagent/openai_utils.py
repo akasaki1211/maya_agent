@@ -1,4 +1,5 @@
 from typing import List, Tuple
+import json
 
 import openai
 from openai.datalib.numpy_helper import numpy as np
@@ -30,6 +31,9 @@ def chat_completion(messages:List, model:str=DEFAULT_CHAT_MODEL, **kwargs) -> Tu
     )
     finish_reason = response.choices[0]["finish_reason"]
     message = response.choices[0]["message"]
+    
+    if finish_reason == "function_call":
+        json.loads(message["function_call"]["arguments"])
 
     return finish_reason, message
 

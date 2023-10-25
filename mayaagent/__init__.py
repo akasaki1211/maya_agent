@@ -4,6 +4,14 @@ from .vectorstore import VectorStore
 from .utils import MDLogger
 from .openai_utils import DEFAULT_CHAT_MODEL
 
+__all__ = [
+    "Agent",
+    "FunctionSet",
+    "FunctionSetWithVectorSearch",
+    "VectorStore",
+    "MDLogger",
+]
+
 def run(
         task:str, 
         model:str=DEFAULT_CHAT_MODEL, 
@@ -27,6 +35,7 @@ def run(
         prompt=task,
         model=model, 
         max_call=max_call,
+        auto=auto,
         mdlogger=mdlogger
     )
 

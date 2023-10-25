@@ -1,11 +1,19 @@
 import sys
 import json
+import time
+import keyboard
+from concurrent.futures import ThreadPoolExecutor
 
 from .functions import FunctionSet
 from .utils import MDLogger
 from .openai_utils import (
     chat_completion, 
     DEFAULT_CHAT_MODEL
+)
+from .dialog import (
+    maya_main_window,
+    information,
+    confirm,
 )
 
 from maya import cmds
@@ -32,14 +40,30 @@ class Agent:
         if not self.mdlogger:
             return
         self.mdlogger(line, codeblock)
+    
+    def _monitor_keys(self):
+        """キー入力を別スレッドで受け付け（中断用）"""
+        while not self.exit_flag:
+            time.sleep(0.2)
+            if keyboard.is_pressed('esc'):
+                self.exit_flag = 1
+                break
 
     def __call__(
             self, 
             prompt:str, 
             model:str=DEFAULT_CHAT_MODEL, 
             max_call:int=20, 
+            auto:bool=True,
             mdlogger:MDLogger=None
         ):
+
+        # 強制終了フラグをオフ
+        self.exit_flag = 0
+
+        # キー入力受付スレッド作成
+        executor = ThreadPoolExecutor(max_workers=1)
+        executor.submit(self._monitor_keys)
 
         # ロガー準備
         self.mdlogger = mdlogger
@@ -59,6 +83,10 @@ class Agent:
 
         # メイン処理（max_callに達っしたら強制終了）
         for i in range(max_call):
+
+            if self.exit_flag:
+                self._log("\n\npressed esc. interrupt.")
+                break
 
             cmds.refresh()
 
@@ -90,6 +118,25 @@ class Agent:
             # 返答をメッセージ配列へ追加
             messages.append(message)
 
+            if self.exit_flag:
+                self._log("\n\npressed esc. interrupt.")
+                break
+
+            # オートモードじゃない場合は毎回ユーザーに尋ねる
+            if not auto:
+                confirm_result, instruct_text = confirm(maya_main_window(), "Step:{} ({})".format(i, model), agent_message)
+                if confirm_result == 1:
+                    pass
+                elif confirm_result == 0:
+                    break
+                elif confirm_result == 2:
+                    # ユーザーが追加指示を出した場合は、関数を実行せずcontinue
+                    messages.append({"role": "user", "content": instruct_text})
+                    self._log("User Instruct :  ")
+                    self._log(instruct_text, codeblock="")
+                    print(instruct_text)
+                    continue
+
             # GPTが関数を呼び出したいかどうか判定
             if finish_reason == "function_call":
                 # 関数名と引数取得
@@ -115,4 +162,12 @@ class Agent:
                 # 関数を呼び出さない場合は終了
                 break
         
+        # キー受付スレッド終了処理
+        self.exit_flag = 1
+        executor.shutdown(wait=True)
+
+        # 完了メッセージ表示
+        if auto:
+            information(maya_main_window(), "Done!", agent_message)
+
         return messages, agent_message
