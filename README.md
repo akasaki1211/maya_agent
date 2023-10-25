@@ -9,7 +9,7 @@
 ## セットアップ
 1. [API keys - OpenAI API](https://platform.openai.com/account/api-keys)よりAPI Keyを取得し、環境変数`OPENAI_API_KEY`に設定
 
-2. [install.bat](.\install.bat)を実行し、Maya2024にパッケージをインストール
+2. [install.bat](./install.bat)を実行し、Maya2024にパッケージをインストール
 
 3. 次のいずれかを実施
    * C:/Users/<ユーザー名>/Documents/maya/<バージョン>/scriptsに`mayaagent`フォルダをコピーする
@@ -42,7 +42,7 @@ mayaagent.run(task, function_set=function_set)
 
 ## ベクトルストア作成
 
-[vectorstore_test.py](.\vectorstore_test.py)を参照
+[vectorstore_test.py](./vectorstore_test.py)を参照
 
 ```python
 from pathlib import Path
