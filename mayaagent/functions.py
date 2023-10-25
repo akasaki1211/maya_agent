@@ -2,6 +2,8 @@ import sys
 import traceback
 from io import StringIO
 
+from .vectorstore import VectorStore
+
 MAYA_OUTPUT = sys.stdout
 
 class FunctionSet:
@@ -61,3 +63,33 @@ class FunctionSet:
             sys.stdout = MAYA_OUTPUT
             
             return "## ERROR ##\n" + err
+
+
+
+class FunctionSetWithVectorSearch(FunctionSet):
+
+    def __init__(self, manual_vs:VectorStore, manual_description:str):
+        super(FunctionSetWithVectorSearch, self).__init__()
+
+        self.manual_vs = manual_vs        
+        self.functions.append(
+            {
+                "name": "search_manual",
+                "description": manual_description,
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "query": {
+                            "type": "string",
+                            "description": "Search terms for what content you want to retrieve related documents from the manual.",
+                        },
+                    },
+                    "required": ["query"],
+                },
+            }
+        )
+
+    def search_manual(self, query:str):
+        """ マニュアルから検索語句(query)に該当する箇所を取得する """
+        search_result = self.manual_vs.similarity_search(query, k=2)
+        return "\n".join([sr[0]["content"] for sr in search_result])

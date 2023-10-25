@@ -1,5 +1,6 @@
 from .agent import Agent
-from .functions import FunctionSet
+from .functions import FunctionSet, FunctionSetWithVectorSearch
+from .vectorstore import VectorStore
 from .openai_utils import DEFAULT_CHAT_MODEL
 
 def run(
