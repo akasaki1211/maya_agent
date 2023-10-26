@@ -1,16 +1,11 @@
-from .agent import Agent
-from .functions import FunctionSet, FunctionSetWithVectorSearch
-from .vectorstore import VectorStore
+try:
+    from .agent import Agent
+except ImportError as e:
+    print(e)
+
+from .functions import FunctionSet
 from .utils import MDLogger
 from .openai_utils import DEFAULT_CHAT_MODEL
-
-__all__ = [
-    "Agent",
-    "FunctionSet",
-    "FunctionSetWithVectorSearch",
-    "VectorStore",
-    "MDLogger",
-]
 
 def run(
         task:str, 
