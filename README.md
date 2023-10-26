@@ -53,26 +53,34 @@ mayaagent.run(task, function_set=function_set)
 ```
 
 
-## ベクトルストア作成
+## ベクトルストア
 
-[vectorstore_test.py](./vectorstore_test.py)を参照
+以下を、MayaまたはVSCodeなどで実行
 
+### ベクトルストア作成
 ```python
 from pathlib import Path
 from mayaagent.vectorstore import VectorStore
 
-# ベクトルストア作成
+# テキストからベクトルストア作成
 vec_store = VectorStore()
-vec_store.txt_to_vectorstore(Path("./rigdata/rig_manual_mgear_biped.txt"))
+vec_store.txt_to_vectorstore(
+    text_path＝Path("./rigdata/rig_manual_mgear_biped.txt"), 
+    split_char="\n\n\n"
+)
 ```
 
+### ベクトルストア読込と検索テスト
 ```python
 from pathlib import Path
 from mayaagent.vectorstore import VectorStore
 
-# ベクトルストア読込 → 検索
+# ベクトルストア読込
 vec_store = VectorStore(Path("./rigdata/rig_manual_mgear_biped.json"))
+
+# 検索
 search_result = vec_store.similarity_search("腕のIKFK切り替え")
+
 for sr in search_result:
     print(sr[0]["content"])
     print("score:", sr[1])
