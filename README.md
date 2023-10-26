@@ -1,5 +1,5 @@
 # Maya Agent
-[Function calling](https://openai.com/blog/function-calling-and-other-api-updates)とRAG(Retrieval-Augmented Generation)を使用した、Maya上で動くサポートエージェントのテスト
+[Function calling](https://openai.com/blog/function-calling-and-other-api-updates)とRAG(Retrieval-Augmented Generation)を使用した、Maya上で動くサポートエージェント  
 
 **テスト環境**
 * Windows 10
@@ -18,15 +18,27 @@
 
 ## Agent起動
 
+以下、MayaのScriptEditorで実行
+
 ```python
 # 通常起動
 import mayaagent
 task = "シーンにあるポリゴン板の頂点を上下にランダム移動してボコボコにしてほしい。"
-mayaagent.run(task, model="gpt-4-0613", max_call=20, auto=True)
+mayaagent.run(task)
 ```
 
 ```python
-# 検索用ベクトルストアを渡して起動
+# 通常起動（オプション付き）
+mayaagent.run(
+    task, 
+    model="gpt-4-0613", # モデル "gpt-4-0613" または "gpt-3.5-turbo-0613"
+    max_call=20,        # 最大ループ数。この数に達すると強制終了。
+    auto=True           # Falseにすると毎ターン関数実行の前に確認ダイアログが出る
+)
+```
+
+```python
+# 検索用ベクトルストアを含む関数セットを渡して起動
 from pathlib import Path
 import mayaagent
 from mayaagent import FunctionSetWithVectorSearch, VectorStore
@@ -35,6 +47,7 @@ function_set = FunctionSetWithVectorSearch(
     manual_vs=VectorStore(Path("~/rig_manual_mgear_biped.json")),
     manual_description="Find relevant information in the rig handling manual. The manual outlines the rig controller name, its function, and other auxiliary functions.",
 )
+
 task = "両腕両足をFKに切り替えて"
 mayaagent.run(task, function_set=function_set)
 ```
