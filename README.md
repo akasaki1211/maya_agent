@@ -41,7 +41,8 @@ mayaagent.run(
 # 検索用ベクトルストアを含む関数セットを渡して起動
 from pathlib import Path
 import mayaagent
-from mayaagent import FunctionSetWithVectorSearch, VectorStore
+from mayaagent.functions import FunctionSetWithVectorSearch
+from mayaagent.vectorstore import VectorStore
 
 # マニュアルのベクトルストア準備
 manual_vs = VectorStore(
