@@ -1,4 +1,5 @@
 from typing import List, Tuple
+import json
 
 import openai
 from openai.datalib.numpy_helper import numpy as np
@@ -15,8 +16,7 @@ def retry_decorator(func):
         wait=wait_random_exponential(min=1, max=20)
     )(func)
 
-CHAT_MODELS = ["gpt-3.5-turbo-0613", "gpt-4-0613"]
-DEFAULT_CHAT_MODEL = "gpt-3.5-turbo-0613"
+DEFAULT_CHAT_MODEL = "gpt-4-0613"
 DEFAULT_EMBEDDING_MODEL = "text-embedding-ada-002"
 
 def cosine_similarity(a, b):
@@ -31,6 +31,10 @@ def chat_completion(messages:List, model:str=DEFAULT_CHAT_MODEL, **kwargs) -> Tu
     )
     finish_reason = response.choices[0]["finish_reason"]
     message = response.choices[0]["message"]
+    
+    if finish_reason == "function_call":
+        json.loads(message["function_call"]["arguments"])
+
     return finish_reason, message
 
 @retry_decorator
