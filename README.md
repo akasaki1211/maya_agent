@@ -9,7 +9,7 @@
 ## セットアップ
 1. [API keys - OpenAI API](https://platform.openai.com/account/api-keys)よりAPI Keyを取得し、環境変数`OPENAI_API_KEY`に設定
 
-2. [install.bat](./install.bat)を実行し、Maya2024にパッケージをインストール
+2. [./setup/install_maya2024_win.bat](./setup/install_maya2024_win.bat)を実行し、Maya2024にパッケージをインストール
 
 3. 次のいずれかを実施
    * C:/Users/<ユーザー名>/Documents/maya/<バージョン>/scriptsに`mayaagent`フォルダをコピーする
