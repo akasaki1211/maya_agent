@@ -16,16 +16,16 @@ def run(
     ):
 
     if not function_set:
-        # デフォルトの関数セットのインスタンスを作成
+        # Create instance of default FunctionSet
         function_set = FunctionSet()
 
-    # エージェントのインスタンスを作成
+    # Create instance of Agent
     agent = Agent(function_set)
 
-    # ロガー準備
+    # Prepare logger
     mdlogger = MDLogger()
     
-    # エージェントへ問い合わせて更新されたメッセージを受け取る
+    # Call
     messages, agent_message = agent(
         prompt=task,
         model=model, 

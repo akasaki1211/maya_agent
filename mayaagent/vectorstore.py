@@ -10,7 +10,8 @@ from .openai_utils import (
 
 class VectorStore:
     """
-    ベクトルストアを管理するクラス。テキストの埋め込みを取得し、類似度検索を行う機能を提供。
+    Class that manages the vector store. 
+    Provides the ability to retrieve text embeddings and perform similarity searches.
     """
 
     def __init__(
@@ -30,7 +31,9 @@ class VectorStore:
         query: str, 
         k: Optional[int]=4
     ) -> List[Tuple]:
-        """ 与えられたクエリに基づいて、ベクトルストア内のテキストとの類似度を計算し、上位k件の最も類似度が高いテキストとそのスコアを返す。 """
+        """ 
+        Calculate the similarity to the text in the vector store with the given query and return the top k most similar texts and their scores.
+        """
         query_embedding = get_embedding(query)
         scores = [(data, cosine_similarity(query_embedding, data["embedding"])) for data in self.vector_store]
         sorted_scores = sorted(scores, key=lambda x: x[1], reverse=True)
@@ -43,19 +46,21 @@ class VectorStore:
         split_char: Optional[str]="\n\n\n",
         description: Optional[str]=""
     ) -> "VectorStore":
-        """ 指定されたテキストファイルをベクトルストアに変換 """
+        """ 
+        Convert text file to vectorstore
+        """
 
-        # テキストファイルを読み取る。
+        # Open txt file
         with open(text_path, 'r', encoding="utf-8") as f:
             text = f.read()
 
-        # テキストを個々のテキストに分割。
+        # split texts
         texts = [t.strip() for t in text.split(split_char) if t.strip()]
         
-        # 各テキストの埋め込みを取得。
+        # get embedding of each text
         embeddings = get_embeddings(texts)
 
-        # ベクトルストアデータを準備。
+        # Prepare vectorstore data
         vector_store = []
         for i, t in enumerate(texts):
             vector_store.append(
@@ -65,7 +70,7 @@ class VectorStore:
                 }
             )
 
-        # ベクトルストアをJSONファイルとして保存。
+        # Save the vectorstore as a JSON file
         save_path = text_path.with_suffix('.json')
         with open(save_path, mode="w", encoding="utf-8") as f:
             json.dump(vector_store, f, ensure_ascii=False)

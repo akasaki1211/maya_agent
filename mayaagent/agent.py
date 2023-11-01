@@ -20,6 +20,9 @@ from maya import cmds
 
 MAX_MESSAGE_LENGTH = 8
 
+TEMPERATURE = 0
+TOP_P = 1
+
 SYSTEM_PROMPT = """You are a professional who works with **Autodesk Maya** with python code.
 When you run the code, it will run on Maya. Maya is already up and running.
 Do not try packages that are not installed as standard with Autodesk Maya.
@@ -42,7 +45,7 @@ class Agent:
         self.mdlogger(line, codeblock)
     
     def _monitor_keys(self):
-        """キー入力を別スレッドで受け付け（中断用）"""
+        """ Key input acceptance thread (for interruption)"""
         while not self.exit_flag:
             time.sleep(0.2)
             if keyboard.is_pressed('esc'):
@@ -58,30 +61,30 @@ class Agent:
             mdlogger:MDLogger=None
         ):
 
-        # 強制終了フラグをオフ
+        # Turn off exit flag
         self.exit_flag = 0
 
-        # キー入力受付スレッド作成
+        # Create key input acceptance thread
         executor = ThreadPoolExecutor(max_workers=1)
         executor.submit(self._monitor_keys)
 
-        # ロガー準備
+        # Prepare markdown logger
         self.mdlogger = mdlogger
 
-        # プロンプトの最後に追加する文
-        prompt += "\n\n現在は{maya_version}が起動中。Python Versionは{python_version}です。\nそれでは仕事を始めましょう。".format(
+        # Added version information to system prompts
+        system_prompt = SYSTEM_PROMPT + "\n\nCurrently {maya_version} is running. python Version is {python_version}.".format(
             maya_version=cmds.about(installedVersion=True), 
             python_version='{}.{}.{}'.format(sys.version_info.major, sys.version_info.minor, sys.version_info.micro),
         )        
 
-        self._log(SYSTEM_PROMPT, codeblock="")
+        self._log(system_prompt, codeblock="")
         self._log(prompt, codeblock="")
         
-        # メッセージ配列準備
-        messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+        # Prepare message list
+        messages = [{"role": "system", "content": system_prompt}]
         messages.append({"role": "user", "content": prompt})
 
-        # メイン処理（max_callに達っしたら強制終了）
+        # Main (Force interruption when max_call is reached)
         for i in range(max_call):
 
             if self.exit_flag:
@@ -90,7 +93,7 @@ class Agent:
 
             cmds.refresh()
 
-            # メッセージ長調整（トークン制限対策）
+            # Message length adjustment
             while True:
                 if len(messages) > MAX_MESSAGE_LENGTH:
                     messages.pop(2)
@@ -101,10 +104,10 @@ class Agent:
             print("\n\n" + "//"*30)
             print("Step:{} ({})".format(i, model))
             
-            # APIリクエスト
+            # API request
             options = {
-                "temperature": 0,
-                "top_p": 1,
+                "temperature": TEMPERATURE,
+                "top_p": TOP_P,
                 "functions": self.functions.functions,
                 "function_call": "auto",
             }
@@ -115,14 +118,14 @@ class Agent:
             self._log("Agent: {}  ".format(agent_message))
             print(agent_message)
 
-            # 返答をメッセージ配列へ追加
+            # Append reply to message list
             messages.append(message)
 
             if self.exit_flag:
                 self._log("\n\npressed esc. interrupt.")
                 break
 
-            # オートモードじゃない場合は毎回ユーザーに尋ねる
+            # Ask user every time, if not in auto mode.
             if not auto:
                 confirm_result, instruct_text = confirm(maya_main_window(), "Step:{} ({})".format(i, model), agent_message)
                 if confirm_result == 1:
@@ -130,16 +133,16 @@ class Agent:
                 elif confirm_result == 0:
                     break
                 elif confirm_result == 2:
-                    # ユーザーが追加指示を出した場合は、関数を実行せずcontinue
+                    # If the user gives additional instructions, the function is not executed and continue.
                     messages.append({"role": "user", "content": instruct_text})
                     self._log("User Instruct :  ")
                     self._log(instruct_text, codeblock="")
                     print(instruct_text)
                     continue
 
-            # GPTが関数を呼び出したいかどうか判定
+            # Check if GPT wants to call a function
             if finish_reason == "function_call":
-                # 関数名と引数取得
+                # Get function name and arguments
                 func_name = message["function_call"]["name"]
                 arguments = json.loads(message["function_call"]["arguments"])
                 
@@ -147,26 +150,26 @@ class Agent:
                 self._log("Arguments : {}  ".format(json.dumps(arguments, indent=4, ensure_ascii=False)))
                 print("Call : `{}`  ".format(func_name))
 
-                # 関数実行
+                # Execute function
                 func_returns = getattr(self.functions, func_name)(**arguments)
 
                 if func_name == "exec_code":
-                    self._log("### " + arguments["headline"] + " ###\n\n" + arguments["python_code"], codeblock="python")
+                    self._log(arguments["python_code"], codeblock="python")
                 self._log("Result :  ")
                 self._log(func_returns, codeblock="")
                 print(func_returns)
 
-                # 関数の実行結果をメッセージに追加
+                # Append the result of function to message list
                 messages.append({"role": "function", "name": func_name, "content": func_returns})
             else:
-                # 関数を呼び出さない場合は終了
+                # Break if the function is not called
                 break
         
-        # キー受付スレッド終了処理
+        # Shutdown key acceptance thread
         self.exit_flag = 1
         executor.shutdown(wait=True)
 
-        # 完了メッセージ表示
+        # Display completion message
         if auto:
             information(maya_main_window(), "Done!", agent_message)
 

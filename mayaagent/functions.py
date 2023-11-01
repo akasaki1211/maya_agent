@@ -20,20 +20,16 @@ class FunctionSet:
                             "type": "string",
                             "description": "The python code to execute (required). Be sure to insert a print() that outputs the result of the execution on the line where the main process is executed.",
                         },
-                        "headline": {
-                            "type": "string",
-                            "description": "What this code does. Write in japanese.",
-                        },
                     },
-                    "required": ["python_code", "headline"],
+                    "required": ["python_code"],
                 },
             },
         ]
     
-    def exec_code(self, python_code:str, headline:str=None):
+    def exec_code(self, python_code:str):
         """
-            Mayaでpythonコードを実行する関数。
-            正常に実行できた場合は標準出力を返す。エラーが発生したらエラー文を返す。
+            Function to execute python code in Maya.
+            Returns stdout if successfully executed. If an error occurs, an error statement is returned.
         """
 
         try:
@@ -90,6 +86,6 @@ class FunctionSetWithVectorSearch(FunctionSet):
         )
 
     def search_manual(self, query:str):
-        """ マニュアルから検索語句(query)に該当する箇所を取得する """
+        """ Retrieve the items corresponding to the search term (query) from the manual. """
         search_result = self.manual_vs.similarity_search(query, k=2)
         return "\n".join([sr[0]["content"] for sr in search_result])
