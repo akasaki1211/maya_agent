@@ -1,74 +1,84 @@
 # Maya Agent
-[Function calling](https://openai.com/blog/function-calling-and-other-api-updates)とRAG(Retrieval-Augmented Generation)を使用した、Maya上で動くサポートエージェント  
+<p align="center">
+<img src="./.images/cover.png" alt="Maya Agent" style="width: 80%;"><br>
+</p>
 
-**テスト環境**
-* Windows 10
-* Maya 2024 (Python 3.10.8)
-* openai 0.28.1
+![Maya](https://img.shields.io/static/v1?message=Maya&color=0696D7&logo=Autodesk&logoColor=white&label=) ![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)  
 
-## セットアップ
-1. [API keys - OpenAI API](https://platform.openai.com/account/api-keys)よりAPI Keyを取得し、環境変数`OPENAI_API_KEY`に設定
+[日本語READMEはこちら](./README_ja.md)  
 
-2. [./setup/install_maya2024_win.bat](./setup/install_maya2024_win.bat)を実行し、Maya2024にパッケージをインストール
+Agent running on Maya using OpenAI API [Function calling](https://openai.com/blog/function-calling-and-other-api-updates).  
 
-3. 次のいずれかを実施
-   * C:/Users/<ユーザー名>/Documents/maya/<バージョン>/scriptsに`mayaagent`フォルダをコピーする
-   * 環境変数PYTHONPATHに`mayaagent`の親フォルダを追加する
+🎥 [Demo movie](https://twitter.com/akasaki1211/status/1716746810403029290)  
+
+> **Tested with**
+> * Windows 10
+> * Maya 2024 (Python 3.10.8)
+> * openai 0.28.1
+
+## Installation
+1. Obtain the API Key from [API keys - OpenAI API](https://platform.openai.com/account/api-keys), and set it to the environment variable `OPENAI_API_KEY`.
+2. Run [./setup/install_maya2024_win.bat](./setup/install_maya2024_win.bat) to install the package on Maya2024.
+3. Do one of the following
+    * Copy the `mayagent` folder to `C:/Users/<USERNAMEe>/Documents/maya/<VERSION>/scripts`  
+    * Add the parent folder of `mayaagent` to the `PYTHONPATH` environment variable
 
 
-## Agent起動
+## Usage
 
-以下、MayaのScriptEditorで実行
+### Run Agent 🤖
+
+Execute the following in Maya ScriptEditor.
 
 ```python
-# 通常起動
+# normal start
 import mayaagent
-task = "シーンにあるポリゴン板の頂点を上下にランダム移動してボコボコにしてほしい。"
+task = "First, please read and understand the manual (motion_export_manual.md) carefully. Please follow the steps described in the manual and export all motions with a Status of 'Fin' to FBX."
 mayaagent.run(task)
 ```
 
 ```python
-# 通常起動（オプション付き）
+# normal start (with options)
 mayaagent.run(
     task, 
-    model="gpt-4-0613", # モデル "gpt-4-0613" または "gpt-3.5-turbo-0613"
-    max_call=20,        # 最大ループ数。この数に達すると強制終了。
-    auto=True           # Falseにすると毎ターン関数実行の前に確認ダイアログが出る
+    model="gpt-4-0613", # Model. "gpt-4-0613" or "gpt-3.5-turbo-0613"
+    max_call=20,        # Maximum number of loops. Forced interruption when this number is reached.
+    auto=True           # If False, a confirmation dialog box will appear before each turn of function execution.
 )
 ```
 
 ```python
-# 検索用ベクトルストアを含む関数セットを渡して起動
+# Give a function set containing a vectorstore, and start.
 from pathlib import Path
 import mayaagent
 from mayaagent.functions import FunctionSetWithVectorSearch
 from mayaagent.vectorstore import VectorStore
 
-# マニュアルのベクトルストア準備
+# Prepare vectorstore
 manual_vs = VectorStore(
-    path=Path("~/rig_manual_mgear_biped.json"),
+    path=Path("rig_manual_mgear_biped.json"),
     description="Find relevant information in the rig handling manual. The manual outlines the rig controller name, its function, and other auxiliary functions."
 )
 
-# ベクトルストア検索を含む関数セットを準備
+# Prepare a function set containing a vectorstore
 function_set = FunctionSetWithVectorSearch(manual_vs=manual_vs)
 
-# エージェント起動
-task = "両腕両足をFKに切り替えて"
+# Agent Start
+task = "Is it possible to maximize the stretch of arm when it is extended with IK?"
 mayaagent.run(task, function_set=function_set)
 ```
 
 
-## ベクトルストア
+### Vector Store 📄
 
-以下を、MayaまたはVSCodeなどで実行
+Execute the following in Maya, VSCode, etc.
 
-### ベクトルストア作成
+#### Vector Store Creation
 ```python
 from pathlib import Path
 from mayaagent.vectorstore import VectorStore
 
-# テキストからベクトルストア作成
+# create vector store from txt file.
 vec_store = VectorStore.from_txt_file(
     text_path=Path("./rigdata/rig_manual_mgear_biped.txt"), 
     split_char="\n\n\n",
@@ -76,16 +86,16 @@ vec_store = VectorStore.from_txt_file(
 )
 ```
 
-### ベクトルストア読込と検索テスト
+#### Vector Store Loading, and Query Test
 ```python
 from pathlib import Path
 from mayaagent.vectorstore import VectorStore
 
-# ベクトルストア読込
+# load vector store
 vec_store = VectorStore(Path("./rigdata/rig_manual_mgear_biped.json"))
 
-# 検索
-search_result = vec_store.similarity_search("腕のIKFK切り替え")
+# query
+search_result = vec_store.similarity_search("IKFK switching of arms", k=2)
 
 for sr in search_result:
     print(sr[0]["content"])
@@ -93,7 +103,7 @@ for sr in search_result:
     print('--'*30)
 ```
 
-> **Note**  
-> * [`./rigdata/rig_manual_mgear_biped.txt`](./rigdata/rig_manual_mgear_biped.txt)は、[mGear 4.1.0](https://github.com/mgear-dev/mgear4/releases/tag/4.1.0)の「**Biped Template, Y-up**」用に作成したマニュアルテキストです。  
-> * これをベクトルストアにしたものも置いてあります。（[`./rigdata/rig_manual_mgear_biped.json`](./rigdata/rig_manual_mgear_biped.json)）  
-> * mGear4.1.0でBipedリグをビルドしておくことですぐに試すことができます。  
+> **Note**   
+> * [`./rigdata/rig_manual_mgear_biped.txt`](./rigdata/rig_manual_mgear_biped.txt) is the manual texts created for the **"Biped Template, Y-up"** in [mGear 4.1.0](https://github.com/mgear-dev/mgear4/releases/tag/4.1.0).  
+> * A vector store of this is also located here. ([`./rigdata/rig_manual_mgear_biped.json`](./rigdata/rig_manual_mgear_biped.json))  
+> * You can try it immediately by building the Biped rig with mGear 4.1.0.  
