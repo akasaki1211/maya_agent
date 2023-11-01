@@ -68,14 +68,14 @@ class FunctionSet:
 
 class FunctionSetWithVectorSearch(FunctionSet):
 
-    def __init__(self, manual_vs:VectorStore, manual_description:str):
+    def __init__(self, manual_vs:VectorStore):
         super(FunctionSetWithVectorSearch, self).__init__()
 
         self.manual_vs = manual_vs        
         self.functions.append(
             {
                 "name": "search_manual",
-                "description": manual_description,
+                "description": self.manual_vs.description,
                 "parameters": {
                     "type": "object",
                     "properties": {
