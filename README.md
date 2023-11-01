@@ -43,11 +43,16 @@ from pathlib import Path
 import mayaagent
 from mayaagent import FunctionSetWithVectorSearch, VectorStore
 
-function_set = FunctionSetWithVectorSearch(
-    manual_vs=VectorStore(Path("~/rig_manual_mgear_biped.json")),
-    manual_description="Find relevant information in the rig handling manual. The manual outlines the rig controller name, its function, and other auxiliary functions.",
+# マニュアルのベクトルストア準備
+manual_vs = VectorStore(
+    path=Path("~/rig_manual_mgear_biped.json"),
+    description="Find relevant information in the rig handling manual. The manual outlines the rig controller name, its function, and other auxiliary functions."
 )
 
+# ベクトルストア検索を含む関数セットを準備
+function_set = FunctionSetWithVectorSearch(manual_vs=manual_vs)
+
+# エージェント起動
 task = "両腕両足をFKに切り替えて"
 mayaagent.run(task, function_set=function_set)
 ```
@@ -63,10 +68,10 @@ from pathlib import Path
 from mayaagent.vectorstore import VectorStore
 
 # テキストからベクトルストア作成
-vec_store = VectorStore()
-vec_store.txt_to_vectorstore(
-    text_path＝Path("./rigdata/rig_manual_mgear_biped.txt"), 
-    split_char="\n\n\n"
+vec_store = VectorStore.from_txt_file(
+    text_path=Path("./rigdata/rig_manual_mgear_biped.txt"), 
+    split_char="\n\n\n",
+    description="Find relevant information in the rig handling manual. The manual outlines the rig controller name, its function, and other auxiliary functions."
 )
 ```
 
