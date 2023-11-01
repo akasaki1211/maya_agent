@@ -132,13 +132,15 @@ class Agent:
                     pass
                 elif confirm_result == 0:
                     break
-                elif confirm_result == 2:
+                elif confirm_result == 2 and instruct_text:
                     # If the user gives additional instructions, the function is not executed and continue.
                     messages.append({"role": "user", "content": instruct_text})
                     self._log("User Instruct :  ")
                     self._log(instruct_text, codeblock="")
                     print(instruct_text)
                     continue
+                else:
+                    pass
 
             # Check if GPT wants to call a function
             if finish_reason == "function_call":
