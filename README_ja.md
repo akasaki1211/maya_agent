@@ -1,13 +1,12 @@
 # Maya Agent
 <p align="center">
 <img src="./.images/cover.png" alt="Maya Agent" style="width: 80%;"><br>
+自然言語の指示でAutodesk Mayaのオペレーションを行うエージェントです<br>
+<img src="https://img.shields.io/static/v1?message=Maya&color=0696D7&logo=Autodesk&logoColor=white&label=" alt="[Autodesk Maya]"> <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License:MIT"><br>
+<a href="https://twitter.com/akasaki1211/status/1716746810403029290">[🎥Demo movie]</a>
 </p>
 
-![Maya](https://img.shields.io/static/v1?message=Maya&color=0696D7&logo=Autodesk&logoColor=white&label=) ![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)  
-
-OpenAI API [Function calling](https://openai.com/blog/function-calling-and-other-api-updates)を利用したMaya上で動くエージェント  
-
-🎥 [Demo movie](https://twitter.com/akasaki1211/status/1716746810403029290)  
+---
 
 > **テスト環境**
 > * Windows 10
@@ -27,17 +26,19 @@ OpenAI API [Function calling](https://openai.com/blog/function-calling-and-other
 ## 使い方
 ### Agent起動🤖
 
-以下、MayaのScriptEditorで実行
+以下をMayaのScriptEditorで実行します。
 
 ```python
-# 通常起動
+### 通常起動 ###
+
 import mayaagent
 task = "まずはマニュアル（motion_export_manual.md）をよく読んで理解してください。マニュアルに記載された手順を遵守しStatusがFinのモーションをすべてFBX書き出ししてください。"
 mayaagent.run(task)
 ```
 
 ```python
-# 通常起動（オプション付き）
+### 通常起動（オプション付き）###
+
 mayaagent.run(
     task, 
     model="gpt-4-0613", # モデル "gpt-4-0613" または "gpt-3.5-turbo-0613"
@@ -47,7 +48,8 @@ mayaagent.run(
 ```
 
 ```python
-# マニュアルのベクトルストアを含む関数セットを渡して起動
+### マニュアルのベクトルストアを含む関数セットを渡して起動 ###
+
 from pathlib import Path
 import mayaagent
 from mayaagent.functions import FunctionSetWithVectorSearch
@@ -67,10 +69,19 @@ task = "IKで腕を伸ばした時に最大限に伸びるように出来ます�
 mayaagent.run(task, function_set=function_set)
 ```
 
+例えば、次のようなタスクを入力することができます。
+* 『モーション出力マニュアル(filepath)をよく読んで理解してください。マニュアルの内容に従い完了済のモーションだけFBX書き出ししてください。』
+* 『シーン内のモデルをカテゴリごとにgroup化してください。変な名前があったらついでに直して報告してください。』
+* 『キャラクターの最新モデルシーンにmGearのガイドインポートしてビルドしてください。ガイドファイルは探してください。ビルドが終わったらExportSelectionしておいてください。mGearのスクリプトガイド(filepath)も渡しておきます。』
+
+詳しくは[デモ](https://twitter.com/akasaki1211/status/1716746810403029290)をご確認ください。
+
+> **Warning**  
+> 1回の`mayaagent.run`メソッド呼び出しでGPT-4に複数のリクエストを行います。消費トークンに注意してください。  
 
 ### ベクトルストア📄
 
-以下を、MayaまたはVSCodeなどで実行
+以下をMayaまたはVSCodeなどで実行します。
 
 #### ベクトルストア作成
 ```python

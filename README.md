@@ -1,22 +1,20 @@
 # Maya Agent
 <p align="center">
 <img src="./.images/cover.png" alt="Maya Agent" style="width: 80%;"><br>
+MayaAgent performs Autodesk Maya operations with natural-language instructions.<br>
+<img src="https://img.shields.io/static/v1?message=Maya&color=0696D7&logo=Autodesk&logoColor=white&label=" alt="[Autodesk Maya]"> <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License:MIT"><br>
+<a href="./README_ja.md">[日本語README]</a>
+<a href="https://twitter.com/akasaki1211/status/1716746810403029290">[🎥Demo movie]</a>
 </p>
 
-![Maya](https://img.shields.io/static/v1?message=Maya&color=0696D7&logo=Autodesk&logoColor=white&label=) ![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)  
-
-[日本語READMEはこちら](./README_ja.md)  
-
-Agent running on Maya using OpenAI API [Function calling](https://openai.com/blog/function-calling-and-other-api-updates).  
-
-🎥 [Demo movie](https://twitter.com/akasaki1211/status/1716746810403029290)  
+---
 
 > **Tested with**
 > * Windows 10
 > * Maya 2024 (Python 3.10.8)
 > * openai 0.28.1
 
-## Installation
+## Getting Started
 1. Obtain the API Key from [API keys - OpenAI API](https://platform.openai.com/account/api-keys), and set it to the environment variable `OPENAI_API_KEY`.
 2. Run [./setup/install_maya2024_win.bat](./setup/install_maya2024_win.bat) to install the package on Maya2024.
 3. Do one of the following
@@ -28,17 +26,19 @@ Agent running on Maya using OpenAI API [Function calling](https://openai.com/blo
 
 ### Run Agent 🤖
 
-Execute the following in Maya ScriptEditor.
+Execute the following in Maya ScriptEditor.  
 
 ```python
-# normal start
+### Normal start ###
+
 import mayaagent
 task = "First, please read and understand the manual (motion_export_manual.md) carefully. Please follow the steps described in the manual and export all motions with a Status of 'Fin' to FBX."
 mayaagent.run(task)
 ```
 
 ```python
-# normal start (with options)
+### Normal start (with options) ###
+
 mayaagent.run(
     task, 
     model="gpt-4-0613", # Model. "gpt-4-0613" or "gpt-3.5-turbo-0613"
@@ -48,7 +48,8 @@ mayaagent.run(
 ```
 
 ```python
-# Give a function set containing a vectorstore, and start.
+### Give a function set containing a vectorstore, and start. ###
+
 from pathlib import Path
 import mayaagent
 from mayaagent.functions import FunctionSetWithVectorSearch
@@ -68,6 +69,15 @@ task = "Is it possible to maximize the stretch of arm when it is extended with I
 mayaagent.run(task, function_set=function_set)
 ```
 
+For example, you can input the following tasks.  
+* "Please read and understand the Motion Export Manual (filepath). Only export completed motions to FBX according to the manual."  
+* "Please group the models in scene by category. If you find any strange names, please fix them and report them to me."  
+* "Import and build mGear guide into latest character model scene. Please find a guide file. Here is the mGear Script Guide (filepath)."  
+
+Please see the [demo](https://twitter.com/akasaki1211/status/1716746810403029290) for more details.
+
+> **Warning**  
+> Make multiple requests to GPT-4 in one `mayagent.run` method call. Please note the tokens used.
 
 ### Vector Store 📄
 
