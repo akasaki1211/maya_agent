@@ -57,18 +57,8 @@ class VectorStore:
         # split texts
         texts = [t.strip() for t in text.split(split_char) if t.strip()]
         
-        # get embedding of each text
-        embeddings = get_embeddings(texts)
-
-        # Prepare vectorstore data
-        vector_store = []
-        for i, t in enumerate(texts):
-            vector_store.append(
-                {
-                    "content": t,
-                    "embedding": embeddings[i],
-                }
-            )
+        # get embedding of each text, and prepare vectorstore data
+        vector_store = [{"content": t, "embedding": e} for t, e in zip(texts, get_embeddings(texts))]
 
         # Save the vectorstore as a JSON file
         save_path = text_path.with_suffix('.json')

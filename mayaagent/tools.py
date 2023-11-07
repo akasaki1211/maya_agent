@@ -2,28 +2,32 @@ import sys
 import traceback
 from io import StringIO
 
+from .openai_utils import ChatCompletionToolParam
 from .vectorstore import VectorStore
 
 MAYA_OUTPUT = sys.stdout
 
-class FunctionSet:
+class ToolSet:
 
     def __init__(self):
-        self.functions = [
-            {
-                "name": "exec_code",
-                "description": "Executes python code on **Autodesk Maya** and returns output.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "python_code": {
-                            "type": "string",
-                            "description": "The python code to execute (required). Be sure to insert a print() that outputs the result of the execution on the line where the main process is executed.",
+        self.tools = [
+            ChatCompletionToolParam(
+                type="function",
+                function={
+                    "name": "exec_code",
+                    "description": "Executes python code on **Autodesk Maya** and returns output.",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "python_code": {
+                                "type": "string",
+                                "description": "The python code to execute (required). Be sure to insert a print() that outputs the result of the execution on the line where the main process is executed.",
+                            },
                         },
+                        "required": ["python_code"],
                     },
-                    "required": ["python_code"],
                 },
-            },
+            )
         ]
     
     def exec_code(self, python_code:str):
@@ -62,27 +66,30 @@ class FunctionSet:
 
 
 
-class FunctionSetWithVectorSearch(FunctionSet):
+class ToolSetWithVectorSearch(ToolSet):
 
     def __init__(self, manual_vs:VectorStore):
-        super(FunctionSetWithVectorSearch, self).__init__()
+        super(ToolSetWithVectorSearch, self).__init__()
 
         self.manual_vs = manual_vs        
-        self.functions.append(
-            {
-                "name": "search_manual",
-                "description": self.manual_vs.description,
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "query": {
-                            "type": "string",
-                            "description": "Search terms for what content you want to retrieve related documents from the manual.",
+        self.tools.append(
+            ChatCompletionToolParam(
+                type="function",
+                function={
+                    "name": "search_manual",
+                    "description": self.manual_vs.description,
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "query": {
+                                "type": "string",
+                                "description": "Search terms for what content you want to retrieve related documents from the manual.",
+                            },
                         },
+                        "required": ["query"],
                     },
-                    "required": ["query"],
-                },
-            }
+                }
+            )
         )
 
     def search_manual(self, query:str):

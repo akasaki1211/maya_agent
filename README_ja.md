@@ -11,7 +11,7 @@
 > **テスト環境**
 > * Windows 10
 > * Maya 2024 (Python 3.10.8)
-> * openai 0.28.1
+> * openai 1.1.1
 
 ## セットアップ
 1. [API keys - OpenAI API](https://platform.openai.com/account/api-keys)よりAPI Keyを取得し、環境変数`OPENAI_API_KEY`に設定
@@ -41,9 +41,9 @@ mayaagent.run(task)
 
 mayaagent.run(
     task, 
-    model="gpt-4-0613", # モデル "gpt-4-0613" または "gpt-3.5-turbo-0613"
-    max_call=20,        # 最大ループ数。この数に達すると強制終了。
-    auto=True           # Falseにすると毎ターン関数実行の前に確認ダイアログが出る
+    model="gpt-4-1106-preview", # モデル "gpt-4-1106-preview" または "gpt-3.5-turbo-1106"
+    max_call=20,                # 最大ループ数。この数に達すると強制終了。
+    auto=True                   # Falseにすると毎ターン関数実行の前に確認ダイアログが出る
 )
 ```
 
@@ -52,7 +52,7 @@ mayaagent.run(
 
 from pathlib import Path
 import mayaagent
-from mayaagent.functions import FunctionSetWithVectorSearch
+from mayaagent.tools import ToolSetWithVectorSearch
 from mayaagent.vectorstore import VectorStore
 
 # マニュアルのベクトルストア準備
@@ -62,11 +62,11 @@ manual_vs = VectorStore(
 )
 
 # ベクトルストア検索を含む関数セットを準備
-function_set = FunctionSetWithVectorSearch(manual_vs=manual_vs)
+tool_set = ToolSetWithVectorSearch(manual_vs=manual_vs)
 
 # エージェント起動
 task = "IKで腕を伸ばした時に最大限に伸びるように出来ますか？"
-mayaagent.run(task, function_set=function_set)
+mayaagent.run(task, toolset=tool_set)
 ```
 
 例えば、次のようなタスクを入力することができます。

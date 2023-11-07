@@ -3,7 +3,7 @@ try:
 except ImportError as e:
     print(e)
 
-from .functions import FunctionSet
+from .tools import ToolSet
 from .utils import MDLogger
 from .openai_utils import DEFAULT_CHAT_MODEL
 
@@ -12,15 +12,15 @@ def run(
         model:str=DEFAULT_CHAT_MODEL, 
         max_call:int=20, 
         auto:bool=True,
-        function_set:FunctionSet=None
+        toolset:ToolSet=None
     ):
 
-    if not function_set:
+    if not toolset:
         # Create instance of default FunctionSet
-        function_set = FunctionSet()
+        toolset = ToolSet()
 
     # Create instance of Agent
-    agent = Agent(function_set)
+    agent = Agent(toolset)
 
     # Prepare logger
     mdlogger = MDLogger()
