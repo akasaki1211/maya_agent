@@ -65,7 +65,7 @@ manual_vs = VectorStore(
 tool_set = ToolSetWithVectorSearch(manual_vs=manual_vs)
 
 # エージェント起動
-task = "IKで腕を伸ばした時に最大限に伸びるように出来ますか？"
+task = "腕の伸びが1.5倍くらいでストップするのですが、無限に伸びるようにできますか？"
 mayaagent.run(task, toolset=tool_set)
 ```
 

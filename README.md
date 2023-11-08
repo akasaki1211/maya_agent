@@ -65,7 +65,7 @@ manual_vs = VectorStore(
 tool_set = ToolSetWithVectorSearch(manual_vs=manual_vs)
 
 # Agent Start
-task = "Is it possible to maximize the stretch of arm when it is extended with IK?"
+task = "Arms stop extending about 1.5x, can you make them extend indefinitely?"
 mayaagent.run(task, toolset=tool_set)
 ```
 
