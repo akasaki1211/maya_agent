@@ -3,12 +3,14 @@ import json
 import time
 import keyboard
 from concurrent.futures import ThreadPoolExecutor
+from typing import List, Dict
 
 from .tools import ToolSet
 from .utils import MDLogger
 from .openai_utils import (
     chat_completion, 
     DEFAULT_CHAT_MODEL,
+    ChatCompletionMessage,
     ChatCompletionSystemMessageParam,
     ChatCompletionUserMessageParam,
     ChatCompletionToolMessageParam,
@@ -21,7 +23,7 @@ from .dialog import (
 
 from maya import cmds
 
-MAX_MESSAGE_LENGTH = 8
+MAX_MESSAGE_LENGTH = 20
 
 TEMPERATURE = 0
 TOP_P = 1
@@ -54,6 +56,25 @@ class Agent:
             if keyboard.is_pressed('esc'):
                 self.exit_flag = 1
                 break
+
+    def _adjust_message_length(self, messages:List):
+        while True:
+            if len(messages) > 8:
+                deleted_message = messages.pop(2)
+
+                if type(deleted_message) == ChatCompletionMessage:
+                    tool_calls = deleted_message.tool_calls
+                elif type(deleted_message) == dict:
+                    tool_calls = deleted_message.get("tool_calls")
+                
+                if tool_calls:
+                    for i in range(len(tool_calls)):
+                        if len(messages) > 3:
+                            messages.pop(2)
+            else:
+                break
+        
+        return messages
 
     def __call__(
             self, 
@@ -98,12 +119,7 @@ class Agent:
 
             cmds.refresh()
 
-            # Message length adjustment
-            while True:
-                if len(messages) > MAX_MESSAGE_LENGTH:
-                    messages.pop(2)
-                else:
-                    break
+            self._adjust_message_length(messages)
 
             self._log("\n\n# Step:{} ({})".format(i, model))
             print("\n\n" + "//"*30)
