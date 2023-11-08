@@ -17,11 +17,9 @@ class VectorStore:
     def __init__(
         self, 
         path: Optional[Path]=None, 
-        description: Optional[str]=""
     ) -> None:
         
         self.vector_store = []
-        self.description = description
         if path:
             with open(path, mode="r", encoding="utf-8") as f:
                 self.vector_store = json.load(f)
@@ -34,6 +32,10 @@ class VectorStore:
         """ 
         Calculate the similarity to the text in the vector store with the given query and return the top k most similar texts and their scores.
         """
+        
+        if not self.vector_store:
+            return
+        
         query_embedding = get_embedding(query)
         scores = [(data, cosine_similarity(query_embedding, data["embedding"])) for data in self.vector_store]
         sorted_scores = sorted(scores, key=lambda x: x[1], reverse=True)
@@ -44,7 +46,6 @@ class VectorStore:
         cls, 
         text_path: Path, 
         split_char: Optional[str]="\n\n\n",
-        description: Optional[str]=""
     ) -> "VectorStore":
         """ 
         Convert text file to vectorstore
@@ -65,7 +66,4 @@ class VectorStore:
         with open(save_path, mode="w", encoding="utf-8") as f:
             json.dump(vector_store, f, ensure_ascii=False)
 
-        return cls(
-            path=save_path, 
-            description=description
-        )
+        return cls(path=save_path)

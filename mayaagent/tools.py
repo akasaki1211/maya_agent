@@ -68,7 +68,7 @@ class ToolSet:
 
 class ToolSetWithVectorSearch(ToolSet):
 
-    def __init__(self, manual_vs:VectorStore):
+    def __init__(self, manual_vs:VectorStore, description:str):
         super(ToolSetWithVectorSearch, self).__init__()
 
         self.manual_vs = manual_vs        
@@ -77,7 +77,7 @@ class ToolSetWithVectorSearch(ToolSet):
                 type="function",
                 function={
                     "name": "search_manual",
-                    "description": self.manual_vs.description,
+                    "description": description,
                     "parameters": {
                         "type": "object",
                         "properties": {

@@ -56,13 +56,13 @@ from mayaagent.tools import ToolSetWithVectorSearch
 from mayaagent.vectorstore import VectorStore
 
 # Prepare vectorstore
-manual_vs = VectorStore(
-    path=Path("rig_manual_mgear_biped.json"),
-    description="Find relevant information in the rig handling manual. The manual outlines the rig controller name, its function, and other auxiliary functions."
-)
+manual_vs = VectorStore(Path("rig_manual_mgear_biped.json"))
 
 # Prepare a function set containing a vectorstore
-tool_set = ToolSetWithVectorSearch(manual_vs=manual_vs)
+tool_set = ToolSetWithVectorSearch(
+    manual_vs=manual_vs, 
+    description="Find relevant information in the rig handling manual. The manual outlines the rig controller name, its function, and other auxiliary functions."
+)
 
 # Agent Start
 task = "Arms stop extending about 1.5x, can you make them extend indefinitely?"
@@ -91,8 +91,7 @@ from mayaagent.vectorstore import VectorStore
 # create vector store from txt file.
 vec_store = VectorStore.from_txt_file(
     text_path=Path("./rigdata/rig_manual_mgear_biped.txt"), 
-    split_char="\n\n\n",
-    description="Find relevant information in the rig handling manual. The manual outlines the rig controller name, its function, and other auxiliary functions."
+    split_char="\n\n\n"
 )
 ```
 
