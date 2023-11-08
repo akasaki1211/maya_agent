@@ -56,13 +56,13 @@ from mayaagent.tools import ToolSetWithVectorSearch
 from mayaagent.vectorstore import VectorStore
 
 # マニュアルのベクトルストア準備
-manual_vs = VectorStore(
-    path=Path("rig_manual_mgear_biped.json"),
-    description="Find relevant information in the rig handling manual. The manual outlines the rig controller name, its function, and other auxiliary functions."
-)
+manual_vs = VectorStore(Path("rig_manual_mgear_biped.json"))
 
 # ベクトルストア検索を含む関数セットを準備
-tool_set = ToolSetWithVectorSearch(manual_vs=manual_vs)
+tool_set = ToolSetWithVectorSearch(
+    manual_vs=manual_vs, 
+    description="Find relevant information in the rig handling manual. The manual outlines the rig controller name, its function, and other auxiliary functions."
+)
 
 # エージェント起動
 task = "腕の伸びが1.5倍くらいでストップするのですが、無限に伸びるようにできますか？"
@@ -91,8 +91,7 @@ from mayaagent.vectorstore import VectorStore
 # テキストからベクトルストア作成
 vec_store = VectorStore.from_txt_file(
     text_path=Path("./rigdata/rig_manual_mgear_biped.txt"), 
-    split_char="\n\n\n",
-    description="Find relevant information in the rig handling manual. The manual outlines the rig controller name, its function, and other auxiliary functions."
+    split_char="\n\n\n"
 )
 ```
 
