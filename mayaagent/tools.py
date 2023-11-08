@@ -94,5 +94,5 @@ class ToolSetWithVectorSearch(ToolSet):
 
     def search_manual(self, query:str):
         """ Retrieve the items corresponding to the search term (query) from the manual. """
-        search_result = self.manual_vs.similarity_search(query, k=2)
+        search_result = self.manual_vs.similarity_search(query)
         return "\n".join([sr[0]["content"] for sr in search_result])
