@@ -12,7 +12,7 @@ MayaAgent performs Autodesk Maya operations with natural-language instructions.<
 > **Tested with**
 > * Windows 10
 > * Maya 2024 (Python 3.10.8)
-> * openai 0.28.1
+> * openai 1.1.1
 
 ## Getting Started
 1. Obtain the API Key from [API keys - OpenAI API](https://platform.openai.com/account/api-keys), and set it to the environment variable `OPENAI_API_KEY`.
@@ -41,9 +41,9 @@ mayaagent.run(task)
 
 mayaagent.run(
     task, 
-    model="gpt-4-0613", # Model. "gpt-4-0613" or "gpt-3.5-turbo-0613"
-    max_call=20,        # Maximum number of loops. Forced interruption when this number is reached.
-    auto=True           # If False, a confirmation dialog box will appear before each turn of function execution.
+    model="gpt-4-1106-preview", # Model. "gpt-4-1106-preview" or "gpt-3.5-turbo-1106"
+    max_call=20,                # Maximum number of loops. Forced interruption when this number is reached.
+    auto=True                   # If False, a confirmation dialog box will appear before each turn of function execution.
 )
 ```
 
@@ -52,7 +52,7 @@ mayaagent.run(
 
 from pathlib import Path
 import mayaagent
-from mayaagent.functions import FunctionSetWithVectorSearch
+from mayaagent.tools import ToolSetWithVectorSearch
 from mayaagent.vectorstore import VectorStore
 
 # Prepare vectorstore
@@ -62,11 +62,11 @@ manual_vs = VectorStore(
 )
 
 # Prepare a function set containing a vectorstore
-function_set = FunctionSetWithVectorSearch(manual_vs=manual_vs)
+tool_set = ToolSetWithVectorSearch(manual_vs=manual_vs)
 
 # Agent Start
-task = "Is it possible to maximize the stretch of arm when it is extended with IK?"
-mayaagent.run(task, function_set=function_set)
+task = "Arms stop extending about 1.5x, can you make them extend indefinitely?"
+mayaagent.run(task, toolset=tool_set)
 ```
 
 For example, you can input the following tasks.  

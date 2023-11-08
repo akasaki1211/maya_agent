@@ -3,12 +3,17 @@ import json
 import time
 import keyboard
 from concurrent.futures import ThreadPoolExecutor
+from typing import List, Dict
 
-from .functions import FunctionSet
+from .tools import ToolSet
 from .utils import MDLogger
 from .openai_utils import (
     chat_completion, 
-    DEFAULT_CHAT_MODEL
+    DEFAULT_CHAT_MODEL,
+    ChatCompletionMessage,
+    ChatCompletionSystemMessageParam,
+    ChatCompletionUserMessageParam,
+    ChatCompletionToolMessageParam,
 )
 from .dialog import (
     maya_main_window,
@@ -18,7 +23,7 @@ from .dialog import (
 
 from maya import cmds
 
-MAX_MESSAGE_LENGTH = 8
+MAX_MESSAGE_LENGTH = 20
 
 TEMPERATURE = 0
 TOP_P = 1
@@ -35,8 +40,8 @@ Never delegate tasks to users. You can access all of Maya's features through Pyt
 
 class Agent:
 
-    def __init__(self, functions:FunctionSet):
-        self.functions = functions
+    def __init__(self, toolset:ToolSet):
+        self.toolset = toolset
         self.mdlogger = None
         
     def _log(self, line:str, codeblock=None):
@@ -51,6 +56,25 @@ class Agent:
             if keyboard.is_pressed('esc'):
                 self.exit_flag = 1
                 break
+
+    def _adjust_message_length(self, messages:List):
+        while True:
+            if len(messages) > 8:
+                deleted_message = messages.pop(2)
+
+                if type(deleted_message) == ChatCompletionMessage:
+                    tool_calls = deleted_message.tool_calls
+                elif type(deleted_message) == dict:
+                    tool_calls = deleted_message.get("tool_calls")
+                
+                if tool_calls:
+                    for i in range(len(tool_calls)):
+                        if len(messages) > 3:
+                            messages.pop(2)
+            else:
+                break
+        
+        return messages
 
     def __call__(
             self, 
@@ -81,8 +105,10 @@ class Agent:
         self._log(prompt, codeblock="")
         
         # Prepare message list
-        messages = [{"role": "system", "content": system_prompt}]
-        messages.append({"role": "user", "content": prompt})
+        messages = [
+            ChatCompletionSystemMessageParam(role="system", content=system_prompt),
+            ChatCompletionUserMessageParam(role="user", content=prompt)
+        ]
 
         # Main (Force interruption when max_call is reached)
         for i in range(max_call):
@@ -93,12 +119,7 @@ class Agent:
 
             cmds.refresh()
 
-            # Message length adjustment
-            while True:
-                if len(messages) > MAX_MESSAGE_LENGTH:
-                    messages.pop(2)
-                else:
-                    break
+            self._adjust_message_length(messages)
 
             self._log("\n\n# Step:{} ({})".format(i, model))
             print("\n\n" + "//"*30)
@@ -108,13 +129,14 @@ class Agent:
             options = {
                 "temperature": TEMPERATURE,
                 "top_p": TOP_P,
-                "functions": self.functions.functions,
-                "function_call": "auto",
+                "tools": self.toolset.tools,
+                "tool_choice": "auto",
             }
-            finish_reason, message = chat_completion(messages, model, **options)
-            agent_message = message["content"].strip() if message["content"] else ""
+            message = chat_completion(messages, model, **options)
+            tool_calls = message.tool_calls
+            agent_message = message.content.strip() if message.content else ""
             
-            self._log("Finish Reason: `{}`  ".format(finish_reason))
+            #self._log("Finish Reason: `{}`  ".format(finish_reason))
             self._log("Agent: {}  ".format(agent_message))
             print(agent_message)
 
@@ -134,7 +156,7 @@ class Agent:
                     break
                 elif confirm_result == 2 and instruct_text:
                     # If the user gives additional instructions, the function is not executed and continue.
-                    messages.append({"role": "user", "content": instruct_text})
+                    messages.append(ChatCompletionUserMessageParam(role="user", content=instruct_text))
                     self._log("User Instruct :  ")
                     self._log(instruct_text, codeblock="")
                     print(instruct_text)
@@ -143,26 +165,34 @@ class Agent:
                     pass
 
             # Check if GPT wants to call a function
-            if finish_reason == "function_call":
-                # Get function name and arguments
-                func_name = message["function_call"]["name"]
-                arguments = json.loads(message["function_call"]["arguments"])
-                
-                self._log("Call : `{}`  ".format(func_name))
-                self._log("Arguments : {}  ".format(json.dumps(arguments, indent=4, ensure_ascii=False)))
-                print("Call : `{}`  ".format(func_name))
+            if tool_calls:
+                for tool_call in tool_calls:
+                    # Get function name and arguments
+                    func_name = tool_call.function.name
+                    arguments = json.loads(tool_call.function.arguments)
+                    
+                    self._log("Call : `{}`  ".format(func_name))
+                    self._log("Arguments : {}  ".format(json.dumps(arguments, indent=4, ensure_ascii=False)))
+                    print("Call : `{}`  ".format(func_name))
 
-                # Execute function
-                func_returns = getattr(self.functions, func_name)(**arguments)
+                    # Execute function
+                    func_returns = getattr(self.toolset, func_name)(**arguments)
 
-                if func_name == "exec_code":
-                    self._log(arguments["python_code"], codeblock="python")
-                self._log("Result :  ")
-                self._log(func_returns, codeblock="")
-                print(func_returns)
+                    if func_name == "exec_code":
+                        self._log(arguments["python_code"], codeblock="python")
+                    self._log("Result :  ")
+                    self._log(func_returns, codeblock="")
+                    print(func_returns)
 
-                # Append the result of function to message list
-                messages.append({"role": "function", "name": func_name, "content": func_returns})
+                    # Append the result of function to message list
+                    messages.append(
+                        ChatCompletionToolMessageParam(
+                            tool_call_id=tool_call.id,
+                            role="tool",
+                            name=func_name,
+                            content=func_returns
+                        )
+                    )
             else:
                 # Break if the function is not called
                 break
